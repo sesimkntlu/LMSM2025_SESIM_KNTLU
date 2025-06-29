@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Activity Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px;
+            max-height: 400px;
+        }
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <header class="text-center mb-10">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900">Relatóriu Progresu Rejistrasaun Selebrasaun LMSM 2025</h1>
+            <p class="text-lg text-gray-600 mt-2">Vizualisaun Analiza hosi fulan Juñu 2025</p>
+        </header>
+
+        <section id="kpis" class="mb-10">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md flex items-center">
+                    <div class="text-4xl mr-4">📝</div>
+                    <div>
+                        <div id="total-submissions" class="text-3xl font-bold text-blue-500">0</div>
+                        <div class="text-gray-500">Totál Rejistu</div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md flex items-center">
+                    <div class="text-4xl mr-4">📍</div>
+                    <div>
+                        <div id="total-municipalities" class="text-3xl font-bold text-orange-500">0</div>
+                        <div class="text-gray-500">Munisípiu</div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md flex items-center">
+                   <div class="text-4xl mr-4">🔬</div>
+                    <div>
+                        <div id="total-disciplines" class="text-3xl font-bold text-green-500">0</div>
+                        <div class="text-gray-500">Dixiplina</div>
+                    </div>
+                </div>
+                   <div class="bg-white p-6 rounded-xl shadow-md flex items-center">
+                    <div class="text-4xl mr-4">👥</div>
+                    <div>
+                        <div id="total-students" class="text-3xl font-bold text-purple-600">0</div>
+                        <div class="text-gray-500">Kanorin</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="analysis-grid" class="mb-10">
+             <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900">Detallu Analiza</h2>
+                <p class="text-md text-gray-600 mt-1">Ezamina distribuisaun sira tuir lokalizasaun, dixiplina, no demográfia.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-center">Munisípiu</h3>
+                    <p class="text-center text-gray-600 mb-4 text-sm">Vizualizasaun ida-ne’e kompara númeru projetu ne’ebé submete hosi kada munisípiu, hodi hatudu área sira-ne’ebé ho partisipasaun boot-liu. Ermera tópiku barak-liu kompara ho munisípiu sira seluk.</p>
+                    <div class="chart-container">
+                        <canvas id="byMunicipalityChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-center">Tópiku tuir Nivel Eskola</h3>
+                     <p class="text-center text-gray-600 mb-4 text-sm">Gráfiku hatudu diferensa totál tópiku ne'ebé submete entre ensinu Bázika no Sekundáriu, ne’ebé indika katak nível sekundáriu rejistu barak liu.</p>
+                    <div class="chart-container">
+                        <canvas id="byNivelEscolaChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-bold mb-4 text-center">Tópiku tuir Dixiplina</h3>
+                    <p class="text-center text-gray-600 mb-4 text-sm">Gráfiku barra ida-ne’e hatudu popularidade área estudu ka dixiplina sira ne'ebé submete ona.</p>
+                    <div class="chart-container">
+                        <canvas id="byDisciplinaChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <div class="bg-white p-6 rounded-xl shadow-md flex flex-col justify-center items-center">
+                        <h3 class="text-xl font-bold mb-4 text-center">Distribuisaun tuir Seksu</h3>
+                        <p class="text-center text-gray-600 mb-4 text-sm">Gráfiku ne'e hatudu proporsaun partisipasaun hosi Mane no Feto iha atividade selebrasaun LMSM 2025.</p>
+                        <div class="chart-container" style="height: 250px; max-height: 280px;">
+                            <canvas id="byGenderChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md flex flex-col justify-center items-center">
+                        <h3 class="text-xl font-bold mb-4 text-center">Distribuisaun tuir Idade</h3>
+                        <p class="text-center text-gray-600 mb-4 text-sm">Idade kanorin sira variedade, ne'ebé maioria ho idade 15 to'o 17, aliña ho totál tópiku sira ne'ebé rejistu.</p>
+                        <div class="chart-container" style="height: 250px; max-height: 280px;">
+                            <canvas id="byAgeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="data-table" class="bg-white p-4 sm:p-6 rounded-xl shadow-md">
+            <h3 class="text-2xl font-bold mb-4">Detallu hosi Tabela Dadus</h3>
+             <p class="text-gray-600 mb-4 text-sm">Detallu kona-ba anliza dadus ida-ne'e, tabela tuirmai kontein dadus ne'ebé rejistu ona. Uza scrollbar iha ekran ki'ik hodi haree hotu koluna sira.</p>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Oras Rejistu</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Munisípiu</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Naran Eskola</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Naran Kanorin</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seksu</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Idade</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Dixipluna</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tópiku</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Naran Manorin</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submission-table-body" class="bg-white divide-y divide-gray-200">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        
+        <footer class="text-center mt-10 pt-6 border-t border-gray-300">
+            <p class="text-sm text-gray-500">Relatóriu ne'e kria: <span id="generation-date"></span>.</p>
+             <p class="text-xs text-gray-400 mt-2">Rezultadu dadus vizualijasaun ne'e la-uza SVG no Mermaid.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // --- IMPORTANT: REPLACE THIS URL with your deployed Google Apps Script Web App URL ---
+        const GOOGLE_APPS_SCRIPT_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbywBg62keIIKfOCn8sY4niFHAMuTv6YmsatmocdMTlByIRuerQ1naPMT3-lgYkxatgK/exec'; 
+        // Example: 'https://script.google.com/macros/s/AKfycbz_YOUR_UNIQUE_ID_HERE/exec'
+
+        // Function to fetch data from the Google Apps Script Web App
+        async function fetchDashboardData() {
+            try {
+                const response = await fetch(GOOGLE_APPS_SCRIPT_WEB_APP_URL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error("Error fetching data from Google Apps Script:", error);
+                alert("Failed to load dashboard data. Please check the Apps Script URL and deployment permissions in the console."); // Use alert for user visibility
+                return []; // Return an empty array on error
+            }
+        }
+
+        // Function to initialize and render the dashboard with fetched data
+        async function initializeDashboard() {
+            const rawData = await fetchDashboardData();
+
+            // Check if data was successfully fetched
+            if (rawData.length === 0) {
+                document.getElementById('total-submissions').textContent = 'N/A';
+                document.getElementById('total-municipalities').textContent = 'N/A';
+                document.getElementById('total-disciplines').textContent = 'N/A';
+                document.getElementById('total-students').textContent = 'N/A';
+                return; // Stop execution if no data
+            }
+
+            // Calculate KPIs
+            const uniqueSubmissions = [...new Map(rawData.map(item => [item.topiku + item.timestamp, item])).values()]; // Use topic + timestamp for unique activities
+
+            const totalSubmissions = uniqueSubmissions.length;
+            const municipalities = new Set(uniqueSubmissions.map(item => item.munisipiu));
+            const disciplines = new Set(uniqueSubmissions.map(item => item.dixiplina));
+            const totalStudents = rawData.length; // Raw data length counts each student entry
+
+            document.getElementById('total-submissions').textContent = totalSubmissions;
+            document.getElementById('total-municipalities').textContent = municipalities.size;
+            document.getElementById('total-disciplines').textContent = disciplines.size;
+            document.getElementById('total-students').textContent = totalStudents;
+            document.getElementById('generation-date').textContent = new Date().toLocaleString('en-US');
+
+            // Populate the Detailed Data Table
+            const tableBody = document.getElementById('submission-table-body');
+            tableBody.innerHTML = ''; // Clear loading text/placeholder
+            rawData.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${row.timestamp || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${row.munisipiu || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${row.naranEskola || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${row.naranKanorin || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${row.seksu || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${row.idade !== null ? row.idade : 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${row.dixiplina || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-normal text-sm text-gray-700">${row.topiku || 'N/A'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${row.naranManorin || 'N/A'}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+
+            // Define color palette (Vibrant palette from previous instructions)
+            const colorPalette = ['#00AEEF', '#F7941D', '#A7D129', '#662D91', '#ED1C24', '#007BFF', '#28A745', '#FFC107', '#DC3545'];
+
+            // Common Chart.js options
+            const tooltipTitleCallback = (tooltipItems) => {
+                const item = tooltipItems[0];
+                let label = item.chart.data.labels[item.dataIndex];
+                if (Array.isArray(label)) {
+                    return label.join(' ');
+                }
+                return label;
+            };
+
+            const commonChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                           title: tooltipTitleCallback
+                        }
+                    }
+                }
+            };
+
+            // Helper function to aggregate data
+            function getAggregatedData(data, key, uniquePerActivity = false) {
+                const aggregationMap = {};
+                const processedActivities = new Set();
+
+                data.forEach(item => {
+                    const activityId = item.topiku + item.timestamp + item.naranManorin; // Unique ID for each activity submission
+
+                    if (uniquePerActivity) {
+                        if (processedActivities.has(activityId)) {
+                            return; // Skip if this activity has already been counted for unique aggregation
+                        }
+                        processedActivities.add(activityId);
+                    }
+
+                    const value = item[key];
+                    if (value && value.toString().trim() !== '' && value.toString().toLowerCase() !== 'n/a' && value.toString().toLowerCase() !== 'laiha' && value.toString().toLowerCase() !== 'haluha') {
+                        aggregationMap[value] = (aggregationMap[value] || 0) + 1;
+                    }
+                });
+                return aggregationMap;
+            }
+
+            // Chart: Activities by Municipality
+            const byMunicipalityData = getAggregatedData(uniqueSubmissions, 'munisipiu', true);
+            new Chart(document.getElementById('byMunicipalityChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(byMunicipalityData),
+                    datasets: [{
+                        label: 'Totál Tópiku ne’ebé Rejistu',
+                        data: Object.values(byMunicipalityData),
+                        backgroundColor: colorPalette[0], // Blue
+                        borderColor: colorPalette[0],
+                        borderWidth: 1
+                    }]
+                },
+                options: { ...commonChartOptions, indexAxis: 'y' }
+            });
+
+            // Chart: Activities by School Level
+            const byNivelData = getAggregatedData(uniqueSubmissions, 'nivelEskola', true);
+            new Chart(document.getElementById('byNivelEscolaChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(byNivelData).map(label => {
+                        if (label === 'Ensinu Báziku') return 'Ensinu Báziku';
+                        if (label === 'Ensinu Sekundáriu') return 'Ensinu Sekundáriu';
+                        return label;
+                    }),
+                    datasets: [{
+                        data: Object.values(byNivelData),
+                        backgroundColor: [colorPalette[1], colorPalette[3]], // Orange, Purple
+                        hoverOffset: 4
+                    }]
+                },
+                options: commonChartOptions,
+            });
+
+            // Chart: Activities by Discipline
+            const byDisciplinaData = getAggregatedData(uniqueSubmissions, 'dixiplina', true);
+            new Chart(document.getElementById('byDisciplinaChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(byDisciplinaData).map(label => {
+                        if (label === 'Matemátika') return 'Matemátika';
+                        if (label === 'Kímika') return 'Kímika';
+                        if (label === 'Biolojia') return 'Biolojia';
+                        if (label === 'Jeolojia') return 'Jeolojia';
+                        // Label wrapping for long topics (more than 16 chars)
+                        if (label.length > 16) {
+                            const words = label.split(' ');
+                            let currentLine = '';
+                            const lines = [];
+                            for (const word of words) {
+                                if ((currentLine + word).length > 16 && currentLine.length > 0) {
+                                    lines.push(currentLine.trim());
+                                    currentLine = word + ' ';
+                                } else {
+                                    currentLine += word + ' ';
+                                }
+                            }
+                            lines.push(currentLine.trim());
+                            return lines;
+                        }
+                        return label;
+                    }),
+                    datasets: [{
+                        label: 'Totál Tópiku ne’ebé Rejistu',
+                        data: Object.values(byDisciplinaData),
+                        backgroundColor: colorPalette[2], // Green
+                        borderColor: colorPalette[2],
+                        borderWidth: 1
+                    }]
+                },
+                options: commonChartOptions,
+            });
+
+            // Chart: Gender Distribution (counts each student entry from rawData)
+            const byGenderData = getAggregatedData(rawData, 'seksu');
+            new Chart(document.getElementById('byGenderChart'), {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(byGenderData).map(label => {
+                        if (label === 'Mane') return 'Mane';
+                        if (label === 'Feto') return 'Feto';
+                        return label;
+                    }),
+                    datasets: [{
+                        data: Object.values(byGenderData),
+                        backgroundColor: [colorPalette[0], colorPalette[1], colorPalette[4]], // Blue, Orange, Red (for N/A)
+                        hoverOffset: 4
+                    }]
+                },
+                options: commonChartOptions,
+            });
+
+            // Chart: Age Distribution (counts each student entry from rawData)
+            const byAgeData = getAggregatedData(rawData, 'idade');
+            new Chart(document.getElementById('byAgeChart'), {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(byAgeData).sort((a,b) => parseInt(a) - parseInt(b)), // Sort ages numerically
+                    datasets: [{
+                        label: 'Kanorin',
+                        data: Object.values(byAgeData),
+                        backgroundColor: colorPalette[3], // Purple
+                        borderColor: colorPalette[3],
+                        borderWidth: 1
+                    }]
+                },
+                options: commonChartOptions,
+            });
+        }
+
+        // Initialize the dashboard when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', initializeDashboard);
+    </script>
+
+</body>
+</html>
